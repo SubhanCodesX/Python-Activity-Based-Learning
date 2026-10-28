@@ -1,40 +1,27 @@
+n = int(input("Enter number of products: "))
 
+for i in range(n):
+    name = input("\nProduct name: ")
+    opening = int(input("Opening stock: "))
+    incoming = int(input("Incoming quantity: "))
+    dispatched = int(input("Dispatched quantity: "))
+    actual = int(input("Actual closing stock: "))
+    target = int(input("Target stock level: "))
 
+    expected = opening + incoming - dispatched
+    difference = actual - expected
 
-number_of_products = int(input("Enter the number of products: "))
+    print("\nProduct:", name)
+    print("Expected stock:", expected)
+    print("Actual stock:", actual)
 
-for i in range(number_of_products):
-    print("\nProduct", i + 1)
-
-    product_name = input("Enter product name: ")
-    opening_stock = int(input("Enter opening stock: "))
-    incoming_quantity = int(input("Enter incoming quantity: "))
-    dispatched_quantity = int(input("Enter dispatched quantity: "))
-    actual_closing_stock = int(input("Enter actual closing stock: "))
-    target_stock_level = int(input("Enter target stock level: "))
-
-    expected_closing_stock = (opening_stock + incoming_quantity - dispatched_quantity)
-
-    print("\nProduct Name:", product_name)
-    print("Expected Closing Stock:", expected_closing_stock)
-    print("Actual Closing Stock:", actual_closing_stock)
-
-    if actual_closing_stock == expected_closing_stock:
+    if difference == 0:
         print("Status: No Discrepancy")
-
-    elif actual_closing_stock < expected_closing_stock:
-        shortage = expected_closing_stock - actual_closing_stock
-        print("Status: Shortage")
-        print("Shortage Quantity:", shortage)
-
+    elif difference < 0:
+        print("Status: Shortage", -difference)
     else:
-        surplus = actual_closing_stock - expected_closing_stock
-        print("Status: Surplus")
-        print("Surplus Quantity:", surplus)
+        print("Status: Surplus", difference)
 
-    replenishment_quantity = max(0, target_stock_level - actual_closing_stock)
-
-    print("Target Stock Level:", target_stock_level)
-    print("Replenishment Quantity:", replenishment_quantity)
+    print("Replenishment quantity:", max(0, target - actual))
 
 print("\nInventory reconciliation completed.")

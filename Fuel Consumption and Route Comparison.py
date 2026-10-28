@@ -1,39 +1,27 @@
-
 n = int(input("Enter number of routes: "))
+price = float(input("Enter fuel price per litre: "))
+lowest, best = float('inf'), ""
 
-if n <= 0:
-    print("Invalid number of routes")
-
+if n <= 0 or price <= 0:
+    print("Invalid input")
 else:
-    fuel_price = float(input("Enter fuel price per litre: "))
+    for i in range(n):
+        name = input("Route name: ")
+        d = float(input("Distance (km): "))
+        m = float(input("Mileage (km/litre): "))
 
-    if fuel_price <= 0:
-        print("Invalid fuel price")
+        if d <= 0 or m <= 0:
+            print("Invalid route details")
+            continue
 
-    else:
-        lowest_cost = None
-        best_route = ""
+        fuel = d / m
+        cost = fuel * price
+        print("Route:", name, "| Fuel:", round(fuel, 2),
+              "litres | Cost: Rs.", round(cost, 2))
 
-        for i in range(n):
-            route_name = input("Enter route name: ")
-            distance = float(input("Enter distance in km: "))
-            mileage = float(input("Enter mileage in km/litre: "))
+        if cost < lowest:
+            lowest, best = cost, name
 
-            if distance <= 0 or mileage <= 0:
-                print("Invalid route details")
-
-            else:
-                fuel_required = distance / mileage
-                fuel_cost = fuel_required * fuel_price
-
-                print("Route:", route_name)
-                print("Fuel required:", round(fuel_required, 2), "litres")
-                print("Fuel cost: Rs.", round(fuel_cost, 2))
-
-                if lowest_cost is None or fuel_cost < lowest_cost:
-                    lowest_cost = fuel_cost
-                    best_route = route_name
-
-        if best_route != "":
-            print("Lowest-cost route:", best_route)
-            print("Lowest fuel cost: Rs.", round(lowest_cost, 2))
+    if best:
+        print("Lowest-cost route:", best)
+        print("Lowest fuel cost: Rs.", round(lowest, 2))

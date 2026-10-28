@@ -1,54 +1,25 @@
-
-initial_balance = 1000.00
-balance = initial_balance
+balance = 1000.00
 transactions = []
 
-choice = "yes"
+while input("Continue? (yes/no): ").lower() == "yes":
+    t = input("Transaction (withdrawal/deposit): ").lower()
+    a = float(input("Enter amount: "))
 
-while choice == "yes":
-    transaction_type = input("Enter transaction type (withdrawal/deposit): ").lower()
-    amount = float(input("Enter amount: "))
-
-    if amount <= 0:
-        print("Invalid amount.")
-
-        transactions.append((transaction_type, amount, "Rejected"))
-
-    elif transaction_type == "withdrawal":
-        if amount > balance:
-            print("Insufficient balance for withdrawal.")
-
-            transactions.append((transaction_type, amount, "Rejected"))
-        else:
-            balance -= amount
-
-            transactions.append((transaction_type, amount, "Successful"))
-
-            print("Withdrawal successful.")
-            print("Remaining balance: ₹", balance)
-
-    elif transaction_type == "deposit":
-        balance += amount
-
-        transactions.append((transaction_type, amount, "Successful"))
-
-        print("Deposit successful.")
+    if a <= 0 or t not in ["withdrawal", "deposit"]:
+        status = "Rejected"
+        print("Invalid amount or transaction type.")
+    elif t == "withdrawal" and a > balance:
+        status = "Rejected"
+        print("Insufficient balance.")
+    else:
+        balance += a if t == "deposit" else -a
+        status = "Successful"
         print("Updated balance: ₹", balance)
 
-    else:
-        print("Invalid transaction type.")
+    transactions.append((t, a, status))
 
-        transactions.append((transaction_type, amount, "Rejected"))
-
-    choice = input("Do you want to perform another transaction? (yes/no): ").lower()
-
-print("\n--- ATM TRANSACTION SUMMARY ---")
-print(f"Initial balance: ₹ {initial_balance}")
-
-print("\nTransaction History:")
-
-for transaction in transactions:
-    print(transaction)
-
-print("\nFinal balance: ₹", balance)
+print("\n--- ATM SUMMARY ---")
+print("Initial balance: ₹1000.00")
+print("Transaction history:", *transactions, sep="\n")
+print("Final balance: ₹", balance)
 print("Thank you for using the ATM!")
